@@ -1,17 +1,17 @@
-import jwt from 'jsonwebtoken';
-import bcrypt from 'bcrypt';
-import dotenv from "dotenv";
-dotenv.config();
+import jwt from "jsonwebtoken";
+import bcrypt from "bcrypt";
+import config from "../config/config.js";
 
-const secret = process.env.jwtAuthKey;
+const secret = config.jwtAuthKey;
 export const createToken = (user) => {
-    return jwt.sign(user, secret, { expiresIn: '12h' })
-}
+  return jwt.sign(user, secret, { expiresIn: "12h" });
+};
 
 export const hashPassword = (password) => {
-    return bcrypt.hashSync(password, genSaltSync(10));
+  const salt = bcrypt.genSaltSync(10);
+  return bcrypt.hashSync(password, salt);
 };
 
 export const comparePassword = (password, hash) => {
-    return bcrypt.compareSync(password, hash);
+  return bcrypt.compareSync(password, hash);
 };
